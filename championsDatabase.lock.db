@@ -1,0 +1,6 @@
+#FileLock
+#Mon Apr 14 20:28:55 GMT-05:00 2025
+hostName=192.168.1.5
+id=19637104723195c46e796a9326c1a8c5b272d159166
+method=file
+server=192.168.1.5\:51270
