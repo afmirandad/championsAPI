@@ -10,18 +10,28 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 public class ChampionsEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private Long id;
-    private String name;
-    private String country;
-    private String year;
+    
+    @Column(name = "nameChampion")
+    private String nameChampion;
+
+    @Column(name = "countryChampion")
+    private String countryChampion;
+
+    @Column(name = "yearChampionship")
+    private String yearChampionship;
+
 }
