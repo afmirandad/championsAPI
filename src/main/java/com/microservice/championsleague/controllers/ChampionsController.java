@@ -1,4 +1,5 @@
 package com.microservice.championsleague.controllers;
+import com.microservice.championsleague.services.ChampionsService;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,10 +11,16 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RestController
 @RequestMapping("/api/v1/champions")
 public class ChampionsController {
+
+    private final ChampionsService championsService;
+
+    public ChampionsController(ChampionsService championsService) {
+        this.championsService = championsService;
+    }
     
     @GetMapping()
     public String getChampionsItem() {
-        return "Readed";
+        return championsService.getAllChampions();
     }
 
     @PostMapping()
