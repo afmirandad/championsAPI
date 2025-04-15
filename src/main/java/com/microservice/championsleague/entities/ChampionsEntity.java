@@ -19,21 +19,21 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@Table(name = "champions")
+@Table(name = "CHAMPIONS")
 public class ChampionsEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
+    @Column(name = "ID")
     private UUID id;
 
-    @Column(name = "nameChampion")
+    @Column(name = "NAMECHAMPION")
     private String nameChampion;
 
-    @Column(name = "countryChampion")
+    @Column(name = "COUNTRYCHAMPION")
     private String countryChampion;
 
-    @Column(name = "yearChampionship")
+    @Column(name = "YEARCHAMPIONSHIP")
     private String yearChampionship;
 
 }
