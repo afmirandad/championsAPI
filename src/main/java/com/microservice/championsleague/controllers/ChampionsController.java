@@ -1,12 +1,13 @@
 package com.microservice.championsleague.controllers;
+
+import com.microservice.championsleague.entities.ChampionsEntity;
 import com.microservice.championsleague.services.ChampionsService;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/champions")
@@ -17,25 +18,57 @@ public class ChampionsController {
     public ChampionsController(ChampionsService championsService) {
         this.championsService = championsService;
     }
-    
-    @GetMapping()
-    public String getChampionsItem() {
-        return championsService.getAllChampions();
+
+    @GetMapping
+    public ResponseEntity<List<ChampionsEntity>> getAllChampions() {
+        return ResponseEntity.ok(championsService.getAllChampions());
     }
 
-    @PostMapping()
-    public String createChampionsItem() {
-        return "Created";
+    @GetMapping("/{id}")
+    public ResponseEntity<ChampionsEntity> getChampionById(@PathVariable UUID id) {
+        ChampionsEntity champion = championsService.getChampionById(id);
+        return champion != null ? ResponseEntity.ok(champion) : ResponseEntity.notFound().build();
     }
 
-    @PutMapping()
-    public String updateChampionsItem() {
-        return "Updated";
+    @PostMapping
+    public ResponseEntity<ChampionsEntity> createChampion(@RequestBody ChampionsEntity champion) {
+        ChampionsEntity saved = championsService.saveChampion(champion);
+        return ResponseEntity.ok(saved);
     }
-    
-    @DeleteMapping()
-    public String deleteChampionsItem(){
-        return "Deleted";
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ChampionsEntity> updateChampion(@PathVariable UUID id, @RequestBody ChampionsEntity updatedData) {
+        ChampionsEntity existing = championsService.getChampionById(id);
+        if (existing == null) {
+            return ResponseEntity.notFound().build();
+        }
+        updatedData.setId(id);
+        ChampionsEntity updated = championsService.saveChampion(updatedData);
+        return ResponseEntity.ok(updated);
     }
-    
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteChampion(@PathVariable UUID id) {
+        ChampionsEntity existing = championsService.getChampionById(id);
+        if (existing == null) {
+            return ResponseEntity.notFound().build();
+        }
+        championsService.deleteChampion(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/country/{country}")
+    public ResponseEntity<List<ChampionsEntity>> getByCountry(@PathVariable String country) {
+        return ResponseEntity.ok(championsService.getChampionsByCountry(country));
+    }
+
+    @GetMapping("/year/{year}")
+    public ResponseEntity<List<ChampionsEntity>> getByYear(@PathVariable String year) {
+        return ResponseEntity.ok(championsService.getChampionsByYear(year));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<ChampionsEntity>> searchByName(@RequestParam String name) {
+        return ResponseEntity.ok(championsService.searchChampionByName(name));
+    }
 }
