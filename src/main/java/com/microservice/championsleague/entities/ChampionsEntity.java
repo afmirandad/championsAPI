@@ -18,13 +18,14 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
+@Table(name = "champions")
 public class ChampionsEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
-    
+
     @Column(name = "nameChampion")
     private String nameChampion;
 
